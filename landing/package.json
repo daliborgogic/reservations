@@ -1,0 +1,15 @@
+{
+  "name": "landing",
+  "version": "1.0.0",
+  "description": "###",
+  "main": "index.js",
+  "scripts": {
+    "start": "pm2-docker --production --json process.yml"
+  },
+  "author": "Dalibor Gogic <mail@daliborgogic.com>",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3"
+  }
+}

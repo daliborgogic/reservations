@@ -1,0 +1,52 @@
+version: '3'
+services:
+
+  # Nginx web server acting as a reverse proxy for "web" and "api" services
+  nginx:
+    build:
+      context: ./nginx
+    environment:
+      - DOMAIN_NAME=${DOMAIN_NAME}
+      - SUB_DOMAIN_NAME=${SUB_DOMAIN_NAME}
+    container_name: res_nginx
+    links:
+      - landing
+      - reserve
+    ports:
+      # Expose [HOST:CONTAINER]
+      - "80"
+      - "443"
+
+  landing:
+    build: ./landing
+    container_name: res_landing
+    command: npm start
+    ports:
+      - "5000"
+    volumes:
+      - ./landing:/usr/src/app
+
+  reserve:
+    depends_on:
+      - db-reserve
+    build: ./services/reserve
+    container_name: res_service_reserve
+    command: npm start
+    ports:
+      - "5001"
+    links:
+      - db-reserve
+    volumes:
+      - ./services/reserve:/usr/src/app
+
+  db-reserve:
+    # https://github.com/mvertes/docker-alpine-mongo
+    image: mvertes/alpine-mongo
+    container_name: res_service_reserve_db
+    ports:
+      - "27017"
+    volumes:
+      - db_reserve_data:/data/db
+
+volumes:
+  db_reserve_data:
