@@ -3,8 +3,6 @@
 const express = require('express')
 const app = express()
 const helmet = require('helmet')
-const favicon = require('serve-favicon')
-const path = require('path')
 
 const PORT = process.env.PORT || 3000
 
@@ -14,7 +12,6 @@ const server = app.listen(PORT, () => {
 
 app.set('json spaces', 2)
 app.use(helmet())
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 app.get('/v1', (req, res) => {
   res.json({

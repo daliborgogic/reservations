@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  # Nginx web server acting as a reverse proxy for "web" and "api" services
+  # Nginx web server acting as a reverse proxy for "landing" and "api" services
   nginx:
     build:
       context: ./nginx
@@ -28,25 +28,26 @@ services:
 
   reserve:
     depends_on:
-      - db-reserve
+      - reserve-db
     build: ./services/reserve
     container_name: res_service_reserve
     command: npm start
     ports:
       - "5001"
     links:
-      - db-reserve
+      - reserve-db
     volumes:
       - ./services/reserve:/usr/src/app
 
-  db-reserve:
+  reserve-db:
     # https://github.com/mvertes/docker-alpine-mongo
-    image: mvertes/alpine-mongo
-    container_name: res_service_reserve_db
+    build:
+      context: ./mongodb
+    container_name: reserve_db
     ports:
       - "27017"
     volumes:
-      - db_reserve_data:/data/db
+      - reserve_db_data:/data/db
 
 volumes:
-  db_reserve_data:
+  reserve_db_data:
