@@ -79,6 +79,7 @@ typings/
 nginx/ssl/**/
 nginx/ssl/*.pem
 nginx/conf.d/*.conf
+!nginx/conf.d/example.com.conf
 *.sublime-workspace
 *.sublime-project
 
